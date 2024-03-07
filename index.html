@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="body">
+    <section>
+        <form class="*" onsubmit="event.preventDefault();alerta()">
+            <h1>Inicio</h1>
+            <div class="inputbox">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input id="em" type="email" required>
+                <label for="">Usuario</label>
+            </div>
+            <div class="inputbox">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input id="pss" type="password" required>
+                <label for="">Contraseña</label>
+            </div>
+            <div class="forget">
+                <label for=""><input type="checkbox">Recordar</label>
+                <a href="#">Olvidé la Contraseña</a>
+            </div>
+            <button id="boton">Iniciar</button>
+            <div class="register">
+                <p>No tengo una cuenta <a href="#">Registrate</a></p>
+            </div>
+        </form>
+    </section>
+
+
+    <script>
+
+        let email= ""
+        let contraseña= ""
+        //document.getElementById("boton").addEventListener("click",alerta)
+        function alerta() {
+            email= document.getElementById("em").value;
+            contraseña= document.getElementById("pss").value;
+            alert(email+" "+contraseña);
+            window.location.href = "page.html";
+        }
+    </script>
+    
+</body>
+</html>
