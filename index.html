@@ -6,9 +6,12 @@
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="body">
+
+
+<body class="body" onload="cargarInfo()">
+
     <section>
-        <form class="*" onsubmit="event.preventDefault();alerta()">
+        <form class="*" onsubmit="event.preventDefault();Inicializatebtn()">
             <h1>Inicio</h1>
             <div class="inputbox">
                 <ion-icon name="mail-outline"></ion-icon>
@@ -21,27 +24,49 @@
                 <label for="">Contraseña</label>
             </div>
             <div class="forget">
-                <label for=""><input type="checkbox">Recordar</label>
+                <label for=""><input type="checkbox" id="check">Recordar</label>
                 <a href="#">Olvidé la Contraseña</a>
             </div>
             <button id="boton">Iniciar</button>
             <div class="register">
                 <p>No tengo una cuenta <a href="#">Registrate</a></p>
             </div>
+            <div class="Init">
+                <a href="page.html">Iniciar sesión sin cuenta</a>
+            </div>
         </form>
     </section>
 
 
     <script>
+        function cargarInfo(){
+        var emailInput = document.getElementById("em")
+        var passWordInput = document.getElementById("pss")
+        var storedEmail = localStorage.getItem("em")
+        var storedPassword = localStorage.getItem("pss")
 
-        let email= ""
-        let contraseña= ""
+        if(storedEmail && storedPassword) {
+            emailInput.value= storedEmail
+            passWordInput.value= storedPassword
+        }
+    }
         //document.getElementById("boton").addEventListener("click",alerta)
-        function alerta() {
-            email= document.getElementById("em").value;
-            contraseña= document.getElementById("pss").value;
-            alert(email+" "+contraseña);
-            window.location.href = "page.html";
+        function Inicializatebtn() {
+
+            var email= document.getElementById("em").value;
+            var contraseña= document.getElementById("pss").value;
+            
+            var checkbox = document.getElementById("check");
+
+            if (checkbox.checked) {
+                alert("Ya sirvo Programador de pacotilla")
+                localStorage.setItem("em", email)
+                localStorage.setItem("pss", contraseña)
+            }else{
+                alert("Ya malo sirvo Programador de pacotilla")
+                localStorage.removeItem("em")
+                localStorage.removeItem("pss")
+            }
         }
     </script>
     
