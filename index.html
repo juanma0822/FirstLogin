@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
+
 </head>
 
 
@@ -14,13 +15,13 @@
         <form class="*" onsubmit="event.preventDefault();Inicializatebtn()">
             <h1>Inicio</h1>
             <div class="inputbox">
+                <input id="em" type="email" placeholder="Usuario" required>
                 <ion-icon name="mail-outline"></ion-icon>
-                <input id="em" type="email" required>
                 <label for="">Usuario</label>
             </div>
             <div class="inputbox">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input id="pss" type="password" required>
+                <input id="pss" type="password" placeholder="Contraseña" required>
+                <ion-icon class="Icon" name="lock-open-outline" id="closedPad" onclick="showPassword(this)"></ion-icon>
                 <label for="">Contraseña</label>
             </div>
             <div class="forget">
@@ -35,11 +36,27 @@
                 <a href="page.html">Iniciar sesión sin cuenta</a>
             </div>
         </form>
-    </section>
+    </section> 
+</body>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    //Función para mostrar la contraseña y cambiar el icono cuando un usuario da click en el icono de mostrar:
+    function showPassword(el) {
+        const passwordInput = document.getElementById("pss")
+        const isPasswordType= passwordInput.type === 'password'
+        
+
+        passwordInput.type = isPasswordType ? 'text' : 'password'
+
+        el.name = isPasswordType ? 'lock-open-outline' : 'lock-closed-outline';
+    }
+    
 
 
-    <script>
-        function cargarInfo(){
+    //Función para que cuando la pagina inicie verifique si hay LocarStorage almacenada y si es así la traiga en los atributos de EMAIL y CONTRASEÑA
+    function cargarInfo(){
         var emailInput = document.getElementById("em")
         var passWordInput = document.getElementById("pss")
         var storedEmail = localStorage.getItem("em")
@@ -50,25 +67,23 @@
             passWordInput.value= storedPassword
         }
     }
-        //document.getElementById("boton").addEventListener("click",alerta)
-        function Inicializatebtn() {
 
-            var email= document.getElementById("em").value;
-            var contraseña= document.getElementById("pss").value;
-            
-            var checkbox = document.getElementById("check");
+    //Función para que cuando envie el formulario se le guarden los datos de inicio de sesión si estuviese checked
+    function Inicializatebtn() {
 
-            if (checkbox.checked) {
-                alert("Ya sirvo Programador de pacotilla")
-                localStorage.setItem("em", email)
-                localStorage.setItem("pss", contraseña)
-            }else{
-                alert("Ya malo sirvo Programador de pacotilla")
-                localStorage.removeItem("em")
-                localStorage.removeItem("pss")
-            }
+        var email= document.getElementById("em").value;
+        var contraseña= document.getElementById("pss").value;
+        
+        var checkbox = document.getElementById("check");
+
+        if (checkbox.checked) {
+            alert("Utilizamos LocalStorage para almacenar los datos de inicio de sesión, puedes borrarlos cuando gustes desde el historial de navegación.")
+            localStorage.setItem("em", email)
+            localStorage.setItem("pss", contraseña)
+        }else{
+            localStorage.removeItem("em")
+            localStorage.removeItem("pss")
         }
-    </script>
-    
-</body>
+    }
+</script>
 </html>
