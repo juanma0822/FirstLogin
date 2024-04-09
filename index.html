@@ -83,6 +83,7 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     // Manejar la respuesta del servidor si es necesario
                     alert(xhr.responseText)
+                    window.location.href = "page.html";
                 }
             };
             xhr.send("email=" + email + "&password=" + contraseña);
