@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
-
-
 <body class="body" onload="cargarInfo()">
-
     <section>
-        <form class="*" onsubmit="event.preventDefault();Inicializatebtn()">
+        <form class="*" onsubmit="event.preventDefault(); Inicializatebtn();">
             <h1>Inicio</h1>
             <div class="inputbox">
-                <input id="em" type="email" placeholder="Usuario" required>
+                <input id="em" type="email" name="email" placeholder="Usuario" required>
                 <ion-icon name="mail-outline"></ion-icon>
                 <label for="">Usuario</label>
             </div>
             <div class="inputbox">
-                <input id="pss" type="password" placeholder="Contraseña" required>
+                <input id="pss" type="password" name="password" placeholder="Contraseña" required>
                 <ion-icon class="Icon" name="lock-open-outline" id="closedPad" onclick="showPassword(this)"></ion-icon>
                 <label for="">Contraseña</label>
             </div>
@@ -28,7 +24,7 @@
                 <label for=""><input type="checkbox" id="check">Recordar</label>
                 <a href="#">Olvidé la Contraseña</a>
             </div>
-            <button id="boton">Iniciar</button>
+            <button id="boton" type="submit" name="register">Iniciar</button>
             <div class="register">
                 <p>No tengo una cuenta <a href="#">Registrate</a></p>
             </div>
@@ -37,53 +33,62 @@
             </div>
         </form>
     </section> 
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        //Función para mostrar la contraseña y cambiar el icono cuando un usuario da click en el icono de mostrar:
+        function showPassword(el) {
+            const passwordInput = document.getElementById("pss");
+            const isPasswordType = passwordInput.type === 'password';
+            passwordInput.type = isPasswordType ? 'text' : 'password';
+            el.name = isPasswordType ? 'lock-open-outline' : 'lock-closed-outline';
+        }
+        
+
+        //Función para que cuando la pagina inicie verifique si hay LocarStorage almacenada y si es así la traiga en los atributos de EMAIL y CONTRASEÑA
+        function cargarInfo(){
+            var emailInput = document.getElementById("em");
+            var passWordInput = document.getElementById("pss");
+            var storedEmail = localStorage.getItem("em");
+            var storedPassword = localStorage.getItem("pss");
+
+            if(storedEmail && storedPassword) {
+                emailInput.value= storedEmail;
+                passWordInput.value= storedPassword;
+            }
+        }
+
+        //Función para que cuando envie el formulario se le guarden los datos de inicio de sesión si estuviese checked
+        function Inicializatebtn() {
+
+            var email= document.getElementById("em").value;
+            var contraseña= document.getElementById("pss").value;
+            
+            var checkbox = document.getElementById("check");
+
+            if (checkbox.checked) {
+                alert("Utilizamos LocalStorage para almacenar los datos de inicio de sesión, puedes borrarlos cuando gustes desde el historial de navegación.")
+                localStorage.setItem("em", email)
+                localStorage.setItem("pss", contraseña)
+            }else{
+                localStorage.removeItem("em")
+                localStorage.removeItem("pss")
+            }
+
+            // Enviar los datos al archivo PHP usando AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "procesar_registro.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Manejar la respuesta del servidor si es necesario
+                    alert(xhr.responseText)
+                }
+            };
+            xhr.send("email=" + email + "&password=" + contraseña);
+
+            return false; // Evitar que el formulario se envíe normalmente
+        }
+    </script>
 </body>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
-    //Función para mostrar la contraseña y cambiar el icono cuando un usuario da click en el icono de mostrar:
-    function showPassword(el) {
-        const passwordInput = document.getElementById("pss")
-        const isPasswordType= passwordInput.type === 'password'
-        
-
-        passwordInput.type = isPasswordType ? 'text' : 'password'
-
-        el.name = isPasswordType ? 'lock-open-outline' : 'lock-closed-outline';
-    }
-    
-
-
-    //Función para que cuando la pagina inicie verifique si hay LocarStorage almacenada y si es así la traiga en los atributos de EMAIL y CONTRASEÑA
-    function cargarInfo(){
-        var emailInput = document.getElementById("em")
-        var passWordInput = document.getElementById("pss")
-        var storedEmail = localStorage.getItem("em")
-        var storedPassword = localStorage.getItem("pss")
-
-        if(storedEmail && storedPassword) {
-            emailInput.value= storedEmail
-            passWordInput.value= storedPassword
-        }
-    }
-
-    //Función para que cuando envie el formulario se le guarden los datos de inicio de sesión si estuviese checked
-    function Inicializatebtn() {
-
-        var email= document.getElementById("em").value;
-        var contraseña= document.getElementById("pss").value;
-        
-        var checkbox = document.getElementById("check");
-
-        if (checkbox.checked) {
-            alert("Utilizamos LocalStorage para almacenar los datos de inicio de sesión, puedes borrarlos cuando gustes desde el historial de navegación.")
-            localStorage.setItem("em", email)
-            localStorage.setItem("pss", contraseña)
-        }else{
-            localStorage.removeItem("em")
-            localStorage.removeItem("pss")
-        }
-    }
-</script>
 </html>
